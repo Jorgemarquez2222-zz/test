@@ -1,0 +1,10 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+{% url 'login' as login_url %}
+
+{% block block_body %}
+
+{% include "elements/form.html" with action=login_url form=form submit_text="Log in" %}
+<h3>{% trans "If you don't have an account" %} <a href="{% url 'subscribe_patient' %}">{% trans "subscribe" %}</a></h3>
+
+{% endblock block_body %}

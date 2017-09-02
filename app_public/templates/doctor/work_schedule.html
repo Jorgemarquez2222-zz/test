@@ -1,0 +1,323 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+
+{% block block_head %}
+{% include "elements/includes_momentjs.html" %}
+{% include "elements/includes_fullcalendario.html" %}
+<script type="text/javascript" src="/static/js/get_cookie.js"></script>
+{% endblock block_head %}
+
+{% block block_body %}
+<div class="row">
+  <div class="col-md-offset-2 col-md-8">
+    <h1>{% trans 'Configure your work schedule' %}</h1>
+    <div id="work_schedule_calendar"></div>
+  </div>
+</div>
+
+<div class="modal fade" id="create_event_modal">
+ <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{% trans "Create new work slot" %}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="name">{% trans "Name" %}</label>
+            <input type="text" id="name6541" name="name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="repeat">{% trans "Recurrent" %}</label>
+            <input type="checkbox" id="repeat756148" name="repeat" class="form-check-input">
+        </div>
+        <div id="recursion_end_div" class="form-group">
+            <label for="date654">{% trans "Repeat until" %}</label>
+            <input type="date" id="rec_end651" name="date645" class="form-control">
+        </div>
+        <div id="daterecalert987" class="alert alert-danger alert-dismissible" role="alert">{% trans 'You must select a date after the appointment' %}</div>
+        <h4>{% trans 'Accepted appointment types' %}</h4>
+        <div id="apptalert987" class="alert alert-danger alert-dismissible" role="alert">{% trans 'You must select at least one appointment type' %}</div>
+        <div id="appt9861">
+          <img src="/static/media/images/preloader1.gif">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="submitClicked()">{% trans "Create" %}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // JS for create_event_modal
+
+  function setAllAppTypesChecked() {
+    var elt = $('#appt9861');
+    elt.find('input').prop('checked', true);
+  }
+
+  function getCheckedAppointmentTypes() {
+    var elts = $('#appt9861').find('input');
+    var app_types = "";
+    for (var i = 0; i < elts.length; ++i) {
+      var e = $(elts[i]);
+      if (e.prop('checked')) {
+        app_types += e.attr('appt_id') + ';';
+      }
+    }
+    return app_types;
+  }
+
+  // At opening modal, clearing fields
+  $('#create_event_modal').on('show.bs.modal', function () {
+    $('#name6541').val('');
+    setTimeout(function() {$('#name6541').focus();}, 200);
+    $('#rec_end651').val('');
+    $('#repeat756148').prop('checked', true);
+    $('#recursion_end_div').show();
+    $('#apptalert987').hide();
+    $('#daterecalert987').hide();
+    setAllAppTypesChecked();
+  });
+
+  // When checking recurrent, showing date selector
+  $('#repeat756148').change(function() {
+    if ($('#repeat756148').prop('checked'))
+      $('#recursion_end_div').show('200');
+    else
+      $('#recursion_end_div').hide('200');
+    $('#daterecalert987').hide();
+  });
+
+  // When submitting
+  function submitClicked() {
+    last_selected_event.name = $('#name6541').val();
+    last_selected_event.recurrent = $('#repeat756148').prop('checked');
+    last_selected_event.recursion_end = moment($('#rec_end651').val());
+    last_selected_event.appointment_types = getCheckedAppointmentTypes();
+
+    if (last_selected_event.recurrent && (isNaN(last_selected_event.recursion_end) || last_selected_event.recursion_end <= last_selected_event.start)) {
+      $('#daterecalert987').show(100);
+      return;
+    }
+    if (last_selected_event.appointment_types == '') {
+      $('#apptalert987').show(100);
+      return;
+    }
+    
+    sendCreateEvent();
+    $('#create_event_modal').modal('hide');
+  }
+
+  // Gets all appointment types of the doctor and displays them
+  $.get("{% url 'api_appointment_type_get' %}?used", function(data, status, xhr) {
+    if (xhr.status != 200)
+      return;
+     var elt = $('#appt9861');
+     elt.html('').hide().show(300);
+     for (var i = 0; i < data.data.length; ++i)
+        elt.append("<label><input type=\"checkbox\" appt_id=\"" + data.data[i].id + "\"></input>" + data.data[i].name + " (" + data.data[i].duration + ")</label><br />");
+      setAllAppTypesChecked();
+  });
+</script>
+
+<div class="modal fade" id="edit_event_modal">
+ <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="name9845" class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <h5>{% trans 'Appointment types' %}</h5>
+        <ul id="appt6548"></ul>
+      </div>
+      <div class="modal-footer">
+        <div id="f651651">
+          <button id="btnrec9561" type="button" class="btn btn-danger" onclick="deleteClicked(true)">{% trans "Delete all" %}</button>
+          <button type="button" class="btn btn-danger" onclick="deleteClicked(false)">{% trans "Delete one" %}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+        </div>
+        <div id="g156215">
+          <button type="button" class="btn btn-danger" onclick="deleteConfirmed()">{% trans "Yes, delete" %}</button>
+          <button type="button" class="btn btn-default" onclick="cancelClicked()">{% trans "Close" %}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // JS for edit_event_modal
+
+  var deleteRecurrent318 = false;
+
+  // At opening modal, displaying elements
+  $('#edit_event_modal').on('show.bs.modal', function () {
+    $('#name9845').html(last_selected_event.name);
+    $('#f651651').show();
+    $('#g156215').hide();
+    deleteRecurrent318 = false;
+    var apptc = $('#appt6548');
+    apptc.html('');
+    for (var i = 0; i < last_selected_event.appointment_types.length; ++i) {
+      apptc.append('<li>' + last_selected_event.appointment_types[i].name +
+                            ' (' + last_selected_event.appointment_types[i].duration + ')</li>')
+    }
+    if (last_selected_event.recurrent) {
+      $('#btnrec9561').show();
+    }
+    else {
+      $('#btnrec9561').hide();
+    }
+  });
+
+  // Delete button clocked
+  function deleteClicked(rec) {
+    deleteRecurrent318 = rec;
+    $('#f651651').hide(150);
+    $('#g156215').show(150);
+  }
+
+  // Cancel the delete
+  function cancelClicked() {
+    $('#f651651').show(150);
+    $('#g156215').hide(150);
+  }
+
+  // Confirm the delete
+  function deleteConfirmed() {
+    sendDelete(deleteRecurrent318);
+    $('#edit_event_modal').modal('hide');
+  }
+</script>
+
+<form style="display:none" id="eventSendForm">
+  {% csrf_token %}
+  <input type="text" name="name">
+  <input type="text" name="appointment_types">
+  <input type="datetime" name="start">
+  <input type="datetime" name="end">
+  <input type="checkbox" name="recurrent">
+  <input type="datetime" name="recursion_end">
+</form>
+
+<form style="display:none" id="eventDeleteForm">
+  {% csrf_token %}
+  <input type="text" name="id">
+  <input type="text" name="all_occurences">
+</form>
+
+<script type="text/javascript">
+var last_selected_event = null;
+
+function getLocale() {
+  var dlc = getCookie("django_language");
+  if (dlc != '')
+     return dlc;
+  return navigator.language || navigator.userLanguage;
+}
+moment.locale(getLocale());
+
+$(document).ready(function() {
+  // FullCalendar definition
+  $('#work_schedule_calendar').fullCalendar({
+    eventClick: editEvent,
+    eventOverlap: false,
+    timeFormat: 'H:mm',
+    locale: getLocale(),
+    timezone: getLocale(),
+    slotLabelFormat: 'H:mm',
+    header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listWeek'
+    },
+    selectable: true,
+    selectHelper: true,
+    select: eventSelected,
+    editable: false,
+    eventLimit: 5, // allow "more" link when too many events
+    height: "auto",
+    defaultView: 'agendaWeek',
+    allDaySlot: false,
+    nowIndicator: true,
+    minTime: '00:00:00',
+    maxTime: '24:00:00'
+  });
+
+  // Sends request to load all events
+  $.get('{% url "api_doctor_workschedule" %}', function(data) {
+    displayListInCalendar(data['data']);
+  });
+});
+
+// Event clicked, opens modal to remove the event
+function editEvent(event, jsEvent, view) {
+  last_selected_event = event;
+  $('#edit_event_modal').modal('show');
+}
+
+// Event selected, opens modal for creation
+function eventSelected(start, end) {
+  last_selected_event = createEvent(-1, '', false, moment(start.format()), moment(end.format()));
+  $('#create_event_modal').modal('show');
+  $('#work_schedule_calendar').fullCalendar('unselect');
+}
+
+// Sends Get request to remve the event
+function sendDelete(recurrent) {
+  $("#eventDeleteForm>input[name='id']").attr('value', last_selected_event.id);
+  if (recurrent)
+    $("#eventDeleteForm>input[name='all_occurences']").attr('value', 'yes');
+  else
+    $("#eventDeleteForm>input[name='all_occurences']").attr('value', '');
+
+  $.post('{% url "api_doctor_workschedule_remove" %}', $("#eventDeleteForm").serialize(), function(data, textStatus, xhr) {
+    if (xhr.status == 200)
+      location.reload();
+  });
+}
+
+// Sends post request
+function sendCreateEvent() {
+  $("#eventSendForm>input[name='name']").attr('value', last_selected_event.name);
+  $("#eventSendForm>input[name='appointment_types']").attr('value', last_selected_event.appointment_types);
+  $("#eventSendForm>input[name='start']").attr('value', last_selected_event.start.unix());
+  $("#eventSendForm>input[name='end']").attr('value', last_selected_event.end.unix());
+  $("#eventSendForm>input[name='recurrent']").prop('checked', last_selected_event.recurrent);
+  $("#eventSendForm>input[name='recursion_end']").attr('value', last_selected_event.recursion_end.unix());
+
+  $.post('{% url "api_doctor_workschedule" %}', $("#eventSendForm").serialize(), function(data, textStatus, xhr) {
+    if (xhr.status == 200)
+      location.reload();
+  });
+}
+
+// Adds a list of events received from the server to the calendar
+function displayListInCalendar(eventList) {
+  for (var i = 0; i < eventList.length; ++i) {
+    var e = eventList[i];
+    e = createEvent(e.id, e.name, e.recurrent, moment(e.start), moment(e.end), e.appointment_types);
+    $('#work_schedule_calendar').fullCalendar('renderEvent', e, true);
+  }
+}
+
+// Returns the event object with given values
+function createEvent(id, name, recurrent, start, end, appointment_types) {
+  var event = {};
+  event.name = name;
+  event.title = name;
+  if (id > 0)
+    event.id = id;
+  event.recurrent = recurrent;
+  event.start = start;
+  event.end = end;
+  event.appointment_types = appointment_types;
+
+  return event;
+}
+</script>
+{% endblock block_body %}

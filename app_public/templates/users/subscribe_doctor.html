@@ -1,0 +1,153 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+{% url 'subscribe_doctor' as subscribe_url %}
+
+{% block block_head %}
+{% include "elements/header_footer.html" %}
+    <style>
+    .thumb{
+     height: 50px;
+     border: 1px solid #000;
+     border-radius: 10px;
+     margin: 0px 0px 0px 0px;
+}
+    </style>
+{% endblock block_head %}
+
+{% block block_body %}
+{% include "elements/includes_search.html" %}
+<section class="divider" style="background-image: url('/static/images/backgrounds/doctablet.png');">
+	<div class="row" style="padding: 70px 0">
+		<form action="{% url "subscribe_doctor" %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input id="wp_count" type="hidden" name="nb_workplaces" value="1">
+			<div class="col-xs-10 col-xs-offset-1 col-md-5 col-md-offset-1">
+                {{ form_subscribe.non_field_errors }}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Perfil</h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <h2 style="font-size: 15px;text-align: right">
+                            <div>
+                                <output id="list"></output>
+                            </div>
+                            <input id="files" type="file" name="foto-perfil" class="btn"
+                                style="position: absolute;opacity: 0;z-index: 999; cursor: pointer">
+                            <button type="button" class="btn btn-upload-photo">Agregar foto</button>
+                        </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{ form_subscribe.first_name.label_tag }}
+                        {{ form_subscribe.first_name }}
+                        {{ form_subscribe.first_name.errors }}
+                    </div>
+                    <div class="col-sm-6">
+                        {{ form_subscribe.last_name.label_tag }}
+                        {{ form_subscribe.last_name }}
+                        {{ form_subscribe.last_name.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{ form_subscribe.email.label_tag }}
+                        {{ form_subscribe.email }}
+                        {{ form_subscribe.email.errors }}
+                    </div>
+                    <div class="col-sm-6">
+                        {{ form_subscribe.doctor_id.label_tag }}
+                        {{ form_subscribe.doctor_id }}
+                        {{ form_subscribe.doctor_id.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{ form_subscribe.speciality.label_tag }}
+                        {{ form_subscribe.speciality }}
+                        {{ form_subscribe.speciality.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{ form_subscribe.formation.label_tag }}
+                        {{ form_subscribe.formation }}
+                        {{ form_subscribe.formation.errors }}
+                    </div>
+                </div>
+			</div>
+			<div class="col-xs-10 col-xs-offset-1 col-md-5 col-md-pull-1">
+				<h2>Datos de consultorio</h2>
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{ form_work_place_1.name.label_tag }}
+                        {{ form_work_place_1.name }}
+                    </div>
+                    <div class="col-sm-6">
+                        {{ form_work_place_1.phone.label_tag }}
+                        {{ form_work_place_1.phone }}
+                        {{ form_work_place_1.phone.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    {{ form_location_1.errors }}
+					<div class="col-sm-12">
+                        {{ form_location_1.address.label_tag }}
+                        {{ form_location_1.address }}
+                        {{ form_location_1.address.errors }}
+                    </div>
+				</div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{ form_work_place_1.payment_method.label_tag }}
+                        {{ form_work_place_1.payment_method }}
+                    </div>
+                    <div class="col-sm-6">
+                        {{ form_work_place_1.ensurance.label_tag }}
+                        {{ form_work_place_1.ensurance }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{ form_work_place_1.work_slots.label_tag }}
+                        {{ form_work_place_1.work_slots }}
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 15px">
+                    <div class="col-sm-4 col-sm-offset-8">
+                        <input type="submit" class="form-control btn-submit-form"
+                            value="ENVIAR">
+                    </div>
+                </div>
+			</div>
+		</form>
+	</div>
+</section>
+     <script>
+              function archivo(evt) {
+                  var files = evt.target.files; // FileList object
+
+                  // Obtenemos la imagen del campo "file".
+                  for (var i = 0, f; f = files[i]; i++) {
+                    //Solo admitimos imágenes.
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
+
+                    var reader = new FileReader();
+
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                          // Insertamos la imagen
+                         document.getElementById("list").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                        };
+                    })(f);
+
+                    reader.readAsDataURL(f);
+                  }
+              }
+
+              document.getElementById('files').addEventListener('change', archivo, false);
+      </script>
+{% endblock block_body %}

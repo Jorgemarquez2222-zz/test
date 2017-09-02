@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+      <meta name="description" content="Doctocliq" />
+      <meta name="keywords" content="medical,doctor" />
+      <meta name="Doctocliq" content="Doctocliq" />
+      <title>Doctocliq</title>
+
+    <link href="/static/images/favicon.png" rel="icon" type="image/png" />
+    <link href="/static/images/favicon.png" rel="shortcut icon" type="image/png">
+    <link href="/static/images/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/static/images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
+    <link href="/static/images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
+
+      <script src="/static/libs/jquery-3.2.1.min.js"></script>
+      {% include "elements/includes_bootstrap.html" %}
+      <link rel="stylesheet" type="text/css" href="/static/css/global.css?v=0.2">
+      
+
+      {% block block_head %}{% endblock %}
+   </head>
+   <body>
+      <header class="header" id="header">
+         {% block block_header %}
+            {% include "elements/menu.html" %}
+         {% endblock %}
+      </header>
+      <div>
+         {% block block_body %}{% endblock %}
+      </div>
+      <footer>
+         {% block block_footer %}
+            {% include "elements/footer.html" %}
+         {% endblock %}
+      </footer>
+   </body>
+</html>

@@ -1,0 +1,207 @@
+{% load i18n %}
+
+{% block block_head %}
+{% include "elements/includes_search.html" %}
+{% include "elements/includes_post_listener.html" %}
+{% endblock block_head %}
+
+<div class="container">
+
+    <style>
+   <!-- Shuld be moved to a common location after full development-->
+   
+   header { width:1000px; }
+
+@media only screen and (max-width: 400px){
+
+       header { width:320px; }
+
+}
+
+@media only screen and (max-width: 720px){
+
+       header { width:600px; }
+
+}
+   .searchArea > div{
+   padding : 5px !important;
+   }
+   .twitter-typeahead{
+   width:100%;
+   }
+   .bs-example {
+   font-family: sans-serif;
+   position: relative;
+   margin: 100px;
+   }
+   .typeahead, .tt-input,.tt-query, .tt-hint {
+   width:100%;
+   }
+   .typeahead {
+   background-color: #FFFFFF;
+   border: 1px solid #ccc;
+   padding-left:20px;
+   }
+   .typeahead:focus,#pac_input:focus {
+   -webkit-box-shadow: 0px 0px 4px 1px rgba(0,164,239,1) !important;
+   -moz-box-shadow: 0px 0px 4px 1px rgba(0,164,239,1) !important;
+   box-shadow: 0px 0px 4px 1px rgba(0,164,239,1) !important;
+   }
+   
+   .error-elem{
+      -webkit-box-shadow: 0px 0px 4px 1px rgba(232, 16, 16, 1) !important;
+   -moz-box-shadow: 0px 0px 4px 1px rgba(232, 16, 16, 1) !important;
+   box-shadow: 0px 0px 4px 1px rgba(232, 16, 16, 1) !important;
+   }
+   
+   .blink-class {
+    border: 1px solid #ee1b1b !important;
+	}
+   
+   .tt-query {
+   }
+   .tt-hint {
+   color: #999999;
+   }
+   .tt-menu {
+   background-color: #FFFFFF;
+   border: 1px solid gray;
+   width: 100%;  
+   max-height:200px;
+   overflow-y:scroll;
+   }
+   .tt-menu:hover{
+   /*overflow-y:scroll;*/
+   }
+   .tt-suggestion {
+   text-align:left;  
+   padding: 3px 16px;
+   }
+   .tt-suggestion strong{
+   color:#555555;
+   }
+   .tt-tag-hover:hover,.tt-cursor {
+   cursor: pointer;
+   background-color: #32A9E4;
+   color: #767676;
+   }
+   .tt-pending{
+   height:50px;
+   background:url('/static/template/js/master-slider/style/loading-1-dark.gif') no-repeat center;
+   margin
+   }
+   .customLoc{
+   position:absolute;
+   z-index:10;
+   top:6px;
+   right:2px;
+   font-size:xx-large;
+   }
+   .phdefault{
+   position:absolute;
+   z-index:10;
+   top:10px;
+   left:20px;
+   color:#9999a5;
+   font-size:16px;
+   transition: 0.2s ease all;
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -o-user-select: none;
+   user-select: none;
+   }
+   .phsidened{
+   position:absolute;
+   z-index:10;
+   top:25px;
+   right:2px;
+   font-size:12px;
+   color:#9999a5;
+   transition: 0.2s ease all;
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -o-user-select: none;
+   user-select: none;
+   }
+   .headresult{
+   text-align:left;
+   font-weight:700;
+   padding-left:16px;
+   background-color: lightgray;
+   color:#00234B;
+   }
+   .sugg-main{
+   font-weight:600;
+   }
+   .sugg-sub{
+   font-size:13px;
+   margin-left:4px;
+   display:inline-block;
+   }
+   
+   .resultimg{
+        position: absolute;
+		top: 8px;
+		left: 8px;
+   }
+   
+   .infodiv{
+   position: absolute;
+		top: 2px;
+		left: 35px;
+		overflow-y:hidden;
+		display:inline-block;
+		margin-left:20px
+   }
+
+    </style>
+    <div class="row searchArea">
+        <form method="post" action="/search/" id="search-form">
+            <div class="col-md-6 col-sm-12" style="padding: 1px;">
+                {% include "search/search_text_input.html" with search_text_input=search_text input_search_id="search_text" placeholder_text="Specialities, doctors and clinics" %}
+                <input type="hidden" value="" name="searchId" id="modelID" class=""/>
+            </div>
+            <div class="col-md-4 col-sm-12" style="padding: 1px;">
+                <div class="input-group" style="width:100%">
+                    <input type="text" name="location" value="{{ search_text }}" placeholder="{% trans 'place (city or address)' %}"
+                    class="form-control input-lg font-16 locsearch" data-height="45px"
+                    style="height: 48px;padding-right: 30px;" id="pac_input"/>
+                    <span class="glyphicon glyphicon-map-marker customLoc"></span>
+                    <input type="hidden" value="" name="longitude" id="cityLng"/>
+                    <input type="hidden" value="" name="latitude" id="cityLat"/>
+                    {% csrf_token %}
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-12" style="padding: 1px;">
+                <span class="input-group-btn">
+                    <button class="btn btn-dark btn-colored btn-theme-colored btn-xs m-0 font-20" style="height: 45px; width:100%">Search&nbsp;&nbsp;&nbsp;&nbsp; <span
+                    class="glyphicon glyphicon-search"></span></button>
+       <!-- <button data-height="45px" class="btn btn-colored btn-theme-colored btn-xs m-0 font-14" style="height: 45px; width:100%" onclick="sendSearch()">{% trans "Search" %}</button> -->
+                </span>
+            </div>
+        </form>
+        <script type="text/javascript">
+		    setSubmitListener("search_form", "/search/");
+			$("#search_text").on('typeahead:select', function (event, suggestion)
+			{
+			    var searchInput = $('#modelID');
+				searchInput.val(suggestion.id);
+				searchInput.attr("class", suggestion.type);
+			});
+		</script>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5ztaHSbnPz_Xaj7CgxPjUeEPlKglZ10A&libraries=places&callback=initAutocomplete"
+            async defer></script>
+    <script type="text/javascript">
+	
+   var noResTemp='';
+   var nores=0;
+   var srchUrlSpec='/api/search/?speciality&search_text=%QUERY';
+   var srchUrlHosp='/api/search/?group&search_text=%QUERY';
+   var srchUrlDocs='/api/search/?search_text=%QUERY';
+
+    </script>
+    <script type="text/javascript" src="/static/js/search/search_home_bar.js"></script>
+</div>

@@ -1,0 +1,50 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+
+{% block block_head %}
+{% include "elements/includes_search.html" %}
+{% endblock block_head %}
+
+{% block block_body %}
+
+<div class="row">
+	<div class="col-sm-8 col-sm-offset-2">
+		{% include "search/search_text_input.html" with search_text_input=search_text input_search_id="search_patients_text" placeholder_input="Patients" %}
+	</div>
+</div>
+<script type="text/javascript">
+   $(document).ready(function ()
+   {
+        var resultdocs = new Bloodhound(
+        {
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace(['first_name', 'last_name']),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote:
+            {
+                url: '/api/searchpatient/?search_text=%QUERY',
+                wildcard: '%QUERY',
+                transform: function (response)
+                {
+                    return response.data;
+                }
+            }
+        });
+        $('.typeahead').typeahead(
+        {
+            hint: true,
+            highlight: true,
+            minLength: 0 /* Minimum chars to trigger request to server*/
+        },
+        {
+            name: 'result',
+            display: function (obj)
+            {
+                return obj.first_name + ' ' + obj.last_name;
+            },
+            source: resultdocs,
+            limit: 200
+        });
+   });
+
+</script>
+{% endblock block_body %}

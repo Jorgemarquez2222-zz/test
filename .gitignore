@@ -1,0 +1,11 @@
+/.idea
+*.pyc
+*.iml
+/migrations
+*.log
+*.pot
+__pycache__/
+.idea_modules/
+local_settings.py
+db.sqlite3
+app_public/static/photos/

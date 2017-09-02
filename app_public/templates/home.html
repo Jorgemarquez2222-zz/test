@@ -1,0 +1,97 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+
+{% block block_head %}
+{% include "elements/header_footer.html" %}
+{% endblock block_head %}
+
+{% block block_body %}
+<body class="">
+   <!-- Main photo + search bar -->
+  <section class="divider" style="background-image: url(&quot;./static/images/backgrounds/doctor4.png&quot;);">
+      <div class="container mt-30">
+
+          <div class="col-sm-12 font-raleway" style="padding: 50px; text-align: center;">
+                  <h1 style="text-shadow: 2px 2px 5px #000000; font-size: 45px">
+                    <span style="color: white;">Pronto la plataforma que revolucionará</span>
+                  </h1>
+
+                  <h1 style="text-shadow: 2px 2px 5px #000000; font-size: 45px">
+                    <span style="color: white;">la toma de citas.</span>
+                    <span style="color: rgb(91, 219, 225);">Ayúdenos creando su perfil.</span>
+                  </h1>
+          </div>
+
+          <div class="col-sm-12 mt-180">
+
+          </div>
+      </div>
+  </section>
+   <!-- Advantages for the patient -->
+   <section class="divider">
+      <div class="container p-20">
+         <div class="row text-center mt-30 mb-30">
+            <div class="col-md-3 pl-30 pr-30">
+               <img src="/static/images/icons/p_adv1.png" alt="project" height="80">
+               <h4 class="title">Encuentra tu doctor de confianza</h4>
+            </div>
+            <div class="col-md-3 pl-30 pr-30">
+               <img src="/static/images/icons/p_adv2.png" alt="project" height="80">
+               <h4 class="title">Tú escoges la fecha y la hora</h4>
+            </div>
+            <div class="col-md-3 pl-30 pr-30">
+               <img src="/static/images/icons/p_adv3.png" alt="project" height="80">
+               <h4 class="title">Te enviamos un recordatorio</h4>
+            </div>
+            <div class="col-md-3 pl-30 pr-30">
+               <img src="/static/images/icons/p_adv4.png" alt="project" height="80">
+               <h4 class="title">Reserva gratis y en un click</h4>
+            </div>
+         </div>
+      </div>
+   </section>
+   <!-- Video + message for doctor data-bg-img="/static/images/pattern/p1.png"-->
+   <!--section id="greensection">
+      <div class="container pt-20 pb-50">
+         <div class="col-sm-12 col-md-6">
+            <h2 class="title mb-20" align="center"><font color=#004D99>¿Qué es Doctocliq?</font></h2>
+            <div id="grid" class="portfolio-gallery grid-1 clearfix">
+               <div class="portfolio-item unisex">
+                  <div class="thumb">
+                     <img class="img-fullwidth" src="/static/images/backgrounds/videophoto.png" alt="project">
+                     <div class="overlay-shade"></div>
+                     <div class="text-holder text-center">
+                        <h4 class="title">Descúbrelo en este video</h4>
+                     </div>
+                     <div class="icons-holder">
+                        <div class="icons-holder-inner">
+                           <div class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
+                              <a class="popup-vimeo" href="#"><i class="fa fa-play"></i></a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-12 col-md-6 pl-30 pr-30">
+            <h2 class="title mb-20" align="center"><font color=#004D99>¿Es un profesional de la salud?</font></h2>
+            <h2 class="title mb-20" align="center"><font color=#004D99>En buena hora !</font></h2>
+         </div>
+      </div>
+   </section-->
+   <section id="greensection">
+      <div class="container pt-20 pb-50 text-center">
+        
+
+        <div class="col-sm-12 col-md-12 text-center">
+          <h2 class="title mt-20 mb-20" align="center"><font color=#004D99 size="8">¿Es un profesional de la salud?</font></h2>
+          <h2 class="title mt-20 mb-40"><font color=#5a5e5c>Cree su perfil y el de su consultorio</font></h2>
+           <a href="{% url 'doctor_profile_example_view' %}" class="btn-xl btn-flat btn-theme-colored-blue mt-20 m-0">Inscribirme</a>
+          
+        </div>  
+      </div>
+  </section>
+
+</body>
+{% endblock block_body %}

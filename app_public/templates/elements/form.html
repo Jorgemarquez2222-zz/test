@@ -1,0 +1,20 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+<form action="{{ action }}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger alert-dismissible">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    {{ form | crispy }}
+
+    <button type="submit">
+    {% if submit_text %}
+    {% trans submit_text %}
+    {% else %}
+    {% trans "Submit" %}
+    {% endif %}
+    </button>
+</form>

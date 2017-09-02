@@ -1,0 +1,11 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+
+{% block block_body %}
+
+<h2>{% trans 'Results for' %} : {{ search_text }}</h2>
+{% for doctor in results %}
+<h4>{{ doctor }}</h4>
+{% endfor %}
+
+{% endblock block_body %}

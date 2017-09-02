@@ -1,0 +1,48 @@
+{% extends 'elements/skeleton.html' %}
+{% block block_head %}
+{% include "elements/includes_bootstrap-datetimepicker.html" %}
+{% include "elements/includes_search.html" %}
+{% endblock block_head %}
+{% block block_body %}
+<h1>Test page</h1>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn" data-toggle="modal" data-target="#myModal">Launch demo modal</button>
+<button type="button" class="btn" onclick="$('#myModal').modal('show');">Launch demo modal</button>
+
+<!-- Modal -->
+<div class="modal fade row" id="myModal">
+ <div class="modal-dialog" role="document">
+    <div class="modal-content con-md-8">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <h1>Hello world !</h1>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    </div>
+</div>
+
+<p data-toggle="tooltip" data-placement="bottom" title="Hooray!">coucou</p>
+
+<a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
+
+<div style="border: 1px">
+  <h1>Form tests</h1>
+  <form action="/test/" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" name="Submit">
+  </form>
+</div>
+<script type="text/javascript">
+            $(function () {
+                $('.input-group.date').datetimepicker();
+            });
+</script>
+{% endblock block_body %}

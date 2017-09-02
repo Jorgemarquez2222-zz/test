@@ -1,0 +1,313 @@
+<!--h1>Doctor profile example</h1>
+<h2><a href="{% url 'subscribe_doctor' %}">Subscribe here</a></h2-->
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+
+<!-- Page Title -->
+<title>Doctocliq</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<!-- Favicon and Touch Icons -->
+<link href="/static/images/favicon.png" rel="shortcut icon" type="image/png">
+<link href="/static/images/apple-touch-icon.png" rel="apple-touch-icon">
+<link href="/static/images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
+<link href="/static/images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
+<link href="/static/images/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+
+<!-- Stylesheet -->
+<link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/static/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+<link href="/static/css/animate.css" rel="stylesheet" type="text/css">
+<link href="/static/css/css-plugin-collections.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="/static/css/global.css?v=0.2">
+<!-- CSS | menuzord megamenu skins -->
+<link id="menuzord-menu-skins" href="css/menuzord-skins/menuzord-boxed.css" rel="stylesheet"/>
+<!-- CSS | Main style file -->
+<link href="/static/css/style-main.css" rel="stylesheet" type="text/css">
+<!-- CSS | Theme Color -->
+<link href="/static/css/colors/theme-skin-green.css" rel="stylesheet" type="text/css">
+<!-- CSS | Preloader Styles -->
+<link href="/static/css/preloader.css" rel="stylesheet" type="text/css">
+<!-- CSS | Custom Margin Padding Collection -->
+<link href="/static/css/custom-bootstrap-margin-padding.css" rel="stylesheet" type="text/css">
+<!-- CSS | Responsive media queries -->
+<link href="/static/css/responsive.css" rel="stylesheet" type="text/css">
+<!-- CSS | Style css. This is the file where you can place your own custom css code. Just uncomment it and use it. -->
+<!-- <link href="css/style.css" rel="stylesheet" type="text/css"> -->
+
+<!-- external javascripts -->
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- JS | jquery plugin collection for this theme -->
+<script src="js/jquery-plugin-collection.js"></script>
+<!-- <script>
+  document.getElementById("defaultOpen").click();
+</script> -->
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style>
+            .my_text_12
+            {
+                font-family:    Arial, Helvetica, sans-serif;
+                font-size:      12px;
+                font-weight:    normal;
+                color:          #435f71
+            }
+            .my_text_14
+            {
+                font-family:    Arial, Helvetica, sans-serif;
+                font-size:      14px;
+                font-weight:    normal;
+                color:          #435f71
+            }
+            .my_text
+            {
+                font-family:    Arial, Helvetica, sans-serif;
+                font-size:      16px;
+                font-weight:    normal;
+                color:           #435f71
+            }
+            .my_text_header
+            {
+                font-family:    Arial, Helvetica, sans-serif;
+                font-size:      20px;
+                font-weight:    bold;
+                color:          #ffffff
+            }
+            .topbar 
+            { 
+              min-width: 100%; 
+              padding: 50px;
+              background-color: #023466 ;
+              padding-right: 40px;
+              padding-left: 40px;
+              
+            }
+
+            .backprofile 
+            { 
+              background-color: #ffffff ;
+              border-radius:  10px;
+              border: 0.3px solid #cecece;
+              padding: 10px;
+              
+            }
+
+             .whiteback 
+            { 
+              background-color: #ffffff ;
+              border-radius:  10px;
+              border: 0.3px solid #cecece;
+              padding: 10px;
+              
+            }
+
+             hr.divider { 
+              margin-top: 1px;
+              border-width: 2px;
+            } 
+            
+            div .ui-tabs .ui-tabs-hide {
+              display: none;
+            }
+             
+</style>
+
+</head>
+<!-- <body style="background-color: #eef2f6"> -->
+<body>
+
+  <section class="divider">
+
+    <div class="row backprofile">
+      <div class="container mt-0">
+        <div class="section-content">
+          <div class="topbar m-0 p-30 pl-60 pr-60">
+                <a class="my_text_header"> Cuando un paciente lo encuentre, su perfil lucirá así:</a>
+                <a href="{% url 'subscribe_doctor' %}" class="btn-lg btn-flat btn-theme-colored-skyblue pull-right m-0"><b>Continuar</b></a>
+              </div> 
+  
+                    
+          <div class="col-md-6 col-sm-12 mt-40 pl-30 pr-30">  
+
+                <!-- PROFILE INFORMATION -->
+                  
+                  <div class="row whiteback">
+
+                    <div class="col-md-12 text-center">
+                      <h1 class="my_text p-0 m-0"><font color=#004D99 size="4">Dr. Fernando Lopez Tarazona</font></h1>
+                      <hr class="divider m-0 p-0 pt-5" style="height:1px;border-top:2px solid #004D99" /> 
+                    </div>
+
+                    <div class="col-md-4 text-center mt-10">
+                      <img src="/static/images/face1.png" alt="" width="120" class="img-circle">
+                    </div>
+
+                    <div class="col-md-8 text-left">
+                        <div class="entry-date list-inline mt-5 m-0 p-0">
+                            <a class="my_text_14 m-0 p-0"> Cardiólogo</a>
+                            <a class="my_text_14 m-0 p-0"> - CMP: 20324</font></a>
+                        </div>
+
+                        <div class="row mt-5"> 
+                            <div class="col-md-12 my_text_14">  
+                                <a class="my_text_14 m-0 p-0"> <b>CONSULTORIO PRIVADO:</b></a>
+                                <p class="mt-5 m-0 p-0"><i class="fa fa-home font-20 mr-15"></i>                                  
+                                <a class="my_text_14 m-0 p-0"> Av. Arequipa 1023, segundo piso, Lince </a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-5">
+
+                               <div class="col-md-12">
+                                <div class="my_text_14"><i class="fa fa-dollar font-16 mr-15"></i> Consulta : <b> S/. 80</b>  <u class="my_text_14 ml-10"><font size="2"> Ver más precios </font></u></div>
+                               </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-md-12">
+                                <a class="my_text_14"><i class="fa fa-credit-card-alt font-16 mr-15"></i> Pago: efectivo y tarjeta </a>
+                                <a href="#" class="btn-sm btn-rounded btn-theme-colored-blue pull-right">Ver teléfonos</a>
+                            </div>
+                        </div>
+
+                    </div>         
+                  </div>
+
+                <!-- MORE ABOUT DOCTOR  -->
+
+                  <div class="row whiteback mt-30">
+                
+                    <div class="col-md-12 text-left"> 
+
+                      <h1 class="my_text p-0 mb-0 mt-0"><font color=#004D99 size="4">Más sobre el doctor</font></h1>
+                      <hr class="divider" style="height:1px;border-top:2px solid #004D99" />          
+                      
+                      <div class="row mt-10 text-left">
+                        <div class="col-md-4">
+                             <a class="my_text_14">Otros centros de trabajo:</a>
+                        </div>
+                        <div class="col-md-8 pl-0 ">
+                             <i class="fa fa-home font-20 mr-5"></i>
+                             <a class="my_text_14">Clínica San Borja, Av. Guardia Civil 213 </a>
+                             <p><i class="fa fa-home  font-20 mr-5"></i>
+                             <a class="my_text_14">Hospital Loayza, Av. Alfonso Ugarte 3204 </a></p>
+                        </div>
+                      </div>
+
+                      <div class="row mt-10 text-justify">
+                        <div class="col-md-4">
+                             <a class="my_text_14">Presentación:</a>
+                        </div>
+                        <div class="col-md-8 pl-0 ">
+                             <a class="my_text_14">12 años atentiendo con mucha paciencia y energía, como profesional independiente y también en clínicas y hospitales.</a>
+                        </div>
+                      </div>
+
+                      <div class="row mt-10">
+                        <div class="col-md-4 text-left">
+                             <a class="my_text_14">Especialidades:</a>
+                        </div>
+                        <div class="col-md-8 pl-0 text-left">
+                             <li><a class="my_text_14">Cardiología preventiva </a></li>
+                             <li><a class="my_text_14">Epidomología </a></li>
+                        </div>
+                      </div>  
+                    
+                      <div class="row mt-10">
+                        <div class="col-md-4 text-left">
+                             <a class="my_text_14">Formación:</a>
+                        </div>
+                        <div class="col-md-8 pl-0 text-left">
+                             <li><a class="my_text_14">Especialización en Cirurgía clínica en España </a></li>
+                             <li><a class="my_text_14">Diplomado en intervención clínico </a></li>
+                             <li><a class="my_text_14">Universidad San Marcos</a></li>
+                        </div>
+                      </div>
+
+
+                      <div class="row mt-10">
+                        <div class="col-md-4 text-left">
+                             <a class="my_text_14">Idiomas:</a>
+                        </div>
+                        <div class="col-md-8 pl-0 text-left">
+                             <a class="my_text_14">Inglés profesional </a>
+                        </div>
+                      </div>
+
+                      <div class="row mt-10">
+                        <div class="col-md-4 text-left">
+                             <a class="my_text_14">Atención a domicilio:</a>
+                        </div>
+                        <div class="col-md-8 pl-0 text-left">
+                             <a class="my_text_14">Sí, llamar para consultar</a>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+          </div>
+
+              
+          <div class="col-md-6 col-sm-12 mt-40 pl-30 pr-30">
+
+            <div class="row whiteback">
+                
+                 <!-- AGENDA -->
+              
+                <div class="col-md-12 text-left ">
+               
+                  <a class="my_text mb-0 mt-0 p-0">Escoja un horario :</a>
+                  
+                  <div class="text-center p-0 m-0">
+                    <img src="/static/images/agenda.png" alt="" height="180">
+                  </div>
+
+                  <div class="text-center">
+                    <a class="btn-xs btn-flat btn-theme-colored-green ml-10">1</a>
+                    <a class="my_text mb-0 mt-0 p-0"><font size="2">Consultorio privado</font></a>
+                    
+                    <a class="btn-xs btn-flat btn-theme-colored-softskyblue ml-10">2</a>
+                    <a class="my_text mb-0 mt-0 p-0"><font size="2">Clínica San Borja</font></a>
+                  </div>    
+                </div>                        
+
+                <!-- ADDRESS -->
+
+                <div class="col-md-12 mt-20 ">
+                               
+                        <h1 class="my_text mb-0 p-0 mt-20">Ubicación del consultorio principal</h1>
+
+                        <div class="text-center p-10 mt-40">
+                          <img src="/static/images/consultoriomap.png" alt="">
+                        </div>
+                </div>
+
+            </div>
+            
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+
+</div>
+<!-- end wrapper -->
+
+<!-- Footer Scripts -->
+<!-- JS | Custom script for all pages -->
+<script src="js/custom.js"></script>
+
+
+
+</body>
+</html>

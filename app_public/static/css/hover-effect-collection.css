@@ -1,0 +1,126 @@
+/*
+ * Hover Effect Collection
+ * Author - Md Ismail Hossain
+ * Web    - http://ismail-hossain.me/
+ * Email  - ismailcseku@gmail.com
+ * Created Date: 05/14/2016
+ * Version: 1.0
+ */
+.hover-effect {
+  overflow: hidden;
+  /*different effects*/
+  /*effect1*/
+}
+.hover-effect .thumb {
+  position: relative;
+  overflow: hidden;
+}
+.hover-effect .thumb .photo {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transition: all 1200ms ease 0s;
+  -o-transition: all 1200ms ease 0s;
+  transition: all 1200ms ease 0s;
+}
+.hover-effect .hover-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+  height: 100%;
+  background: none!important;
+  color: transparent!important;
+  z-index: 100;
+}
+.hover-effect .overlay-shade {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  display: inline-block;
+  vertical-align: middle;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -o-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+}
+.hover-effect .icons-holder {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  display: inline-block;
+  width: auto;
+  height: 36px;
+  vertical-align: middle;
+  z-index: 130;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  -o-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+.hover-effect .icons-holder .icons-holder-inner {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: -18px 0 0 -50%;
+}
+.hover-effect .icons-holder .icons-holder-inner a {
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.hover-effect .hover-effect-description {
+  padding: 15px 0;
+}
+.hover-effect .hover-effect-description .title {
+  margin: 0;
+}
+.hover-effect .hover-effect-description .title a {
+  color: #333333;
+}
+.hover-effect .text-holder {
+  box-sizing: border-box;
+  display: block;
+  /*height: 100%;*/
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  bottom: -30%;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  -o-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+  width: 100%;
+  z-index: 100;
+}
+.hover-effect .text-holder .title {
+  color: #fff;
+}
+.hover-effect:hover .overlay-shade {
+  opacity: 1;
+  filter: alpha(opacity=90);
+}
+.hover-effect:hover .thumb .photo {
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+}
+.hover-effect:hover .icons-holder {
+  top: 50%;
+}
+.hover-effect:hover .icons-holder .icons-holder-inner a {
+  opacity: 1;
+  filter: alpha(opacity=1);
+}
+.hover-effect:hover .text-holder {
+  bottom: 20px;
+  opacity: 1;
+}

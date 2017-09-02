@@ -1,0 +1,9 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+{% url 'profile_doctor' as profile_url %}
+
+{% block block_body %}
+<h2>{% trans "Profile info" %}</h2>
+<img src="{{ photo_url }}" height="200" width="100">
+{% include "elements/form.html" with action=profile_url form=form %}
+{% endblock block_body %}

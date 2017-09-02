@@ -1,0 +1,15 @@
+{% load i18n %}
+<div class="header-nav navbar-fixed-top header-dark navbar-white bg-transparent-1 navbar-sticky-animated animated-active">
+    <div class="header-nav-wrapper">
+        <div class="container p-0 pb-10 add-padding">
+            <nav class="menuzord blue no-bg menuzord-responsive" id="menuzord-right">
+               <a class="menuzord-brand pull-left flip" href="{% url 'home' %}"><img src="/static/images/logo-wide.png" height="50" width="200"></a>
+               <ul class="menuzord-menu menuzord-right menuzord-indented scrollable">
+                {% if request.get_full_path != "/subscribe/" %}
+                    <li><a href="{% url 'doctor_profile_example_view' %}" class="btn-xl btn-flat btn-theme-colored-blue mt-20 m-0" style="color: #fff"> Registrarse</a></li>
+                {% endif %}
+               </ul>
+            </nav>
+        </div>
+    </div>
+</div>

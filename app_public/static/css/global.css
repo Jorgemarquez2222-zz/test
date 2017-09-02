@@ -1,0 +1,69 @@
+body
+{
+	margin: 0;
+}
+
+header > nav, footer
+{
+	background-color: #F0F0F0;
+}
+
+header > nav > ul
+{
+	margin: 0;
+}
+
+header > nav > *, header > nav > ul > li
+{
+	display: inline-block;
+}
+
+.errorlist li
+{
+	color: red;
+}
+
+.btn-submit-form
+{
+	background-color: #8de6ef;
+	color: #194dad;
+	font-weight: bold;
+}
+
+.btn-submit-form:hover
+{
+	background-color: #dddddd;
+}
+
+.btn-upload-photo
+{
+	border: 1px solid #999;cursor: pointer
+}
+
+.btn-upload-photo:hover {
+	background-color: #dddddd;
+}
+
+.btn-theme-colored-blue {
+  color: #FFF;
+  background-color: #004D99;
+  border-color: #004D99;
+}
+
+.btn-theme-colored-blue:hover {
+  color: #004D99;
+  font-weight: bold;
+  background-color: #5bdbe1;
+  border-color: #5bdbe1;
+}
+
+.btn-theme-colored-skyblue {
+  color: #004D99;
+  background-color: #5bdbe1;
+  border-color: #5bdbe1;
+}
+.btn-theme-colored-skyblue:hover {
+  color: #004D99;
+  background-color: #53cbd1;
+  border-color: #53cbd1;
+}

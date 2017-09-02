@@ -1,0 +1,12 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+{% url 'subscribe_patient' as subscribe_url %}
+
+{% block block_body %}
+<div>
+   <h2>{% trans "Subscribe" %}</h2>
+   <h4>{% trans "Are you a doctor ?" %} <a href="{% url 'subscribe_doctor' %}">{% trans "Subscribe as a doctor." %}</a></h4>
+   
+   {% include "elements/form.html" with action=subscribe_url form=form %}
+</div>
+{% endblock block_body %}

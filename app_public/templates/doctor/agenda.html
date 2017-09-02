@@ -1,0 +1,176 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+
+{% block block_body %}
+{% include "elements/includes_momentjs.html" %}
+{% include "elements/includes_fullcalendario.html" %}
+<script type="text/javascript" src="/static/js/get_cookie.js"></script>
+
+<div class="row">
+	<div class="col-sm-2 col-lg-2">
+		<div>
+			<h4>{% trans 'Work places' %} </h4>
+			<ul>
+				{% for wp in work_places %}
+					<li><a href="{% url 'work_place_view' %}?id={{ wp.id }}">
+						{{ wp.name }} <span class="glyphicon glyphicon-pencil"></span>
+					</a></li>
+				{% endfor %}
+				<li><a href="{% url 'work_place_view' %}">Add <span class="glyphicon glyphicon-plus"></span></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-sm-10 col-lg-9">
+		<h1>{% trans 'Agenda' %}</h1>
+		<div id="calendar"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		function getLocale() {
+			var dlc = getCookie("django_language");
+			if (dlc != '')
+				return dlc;
+			return navigator.language || navigator.userLanguage;
+		}
+		moment.locale(getLocale());
+		// FullCalendar definition
+		$('#calendar').fullCalendar({
+			//eventClick: editEvent,
+			//select: eventSelected,
+			locale: getLocale(),
+			timezone: getLocale(),
+			eventOverlap: false,
+			timeFormat: 'H:mm',
+			slotLabelFormat: 'H:mm',
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay,listWeek'
+			},
+			selectable: true,
+			selectHelper: true,
+			editable: false,
+			eventLimit: 5, // allow "more" link when too many events
+			height: "auto",
+			defaultView: 'agendaWeek',
+			allDaySlot: false,
+			nowIndicator: true,
+			minTime: '00:00:00',
+			maxTime: '24:00:00'
+		});
+	});
+	/*
+	var last_selected_event = null;
+
+	function getLocale() {
+	  var dlc = getCookie("django_language");
+	  if (dlc != '')
+	     return dlc;
+	  return navigator.language || navigator.userLanguage;
+	}
+	moment.locale(getLocale());
+
+	$(document).ready(function() {
+	  // FullCalendar definition
+	  $('#work_schedule_calendar').fullCalendar({
+	    eventClick: editEvent,
+	    eventOverlap: false,
+	    timeFormat: 'H:mm',
+	    locale: getLocale(),
+	    timezone: getLocale(),
+	    slotLabelFormat: 'H:mm',
+	    header: {
+	        left: 'prev,next today',
+	        center: 'title',
+	        right: 'month,agendaWeek,agendaDay,listWeek'
+	    },
+	    selectable: true,
+	    selectHelper: true,
+	    select: eventSelected,
+	    editable: false,
+	    eventLimit: 5, // allow "more" link when too many events
+	    height: "auto",
+	    defaultView: 'agendaWeek',
+	    allDaySlot: false,
+	    nowIndicator: true,
+	    minTime: '00:00:00',
+	    maxTime: '24:00:00'
+	  });
+
+	  // Sends request to load all events
+	  $.get(' url "api_doctor_workschedule" ', function(data) {
+	    displayListInCalendar(data['data']);
+	  });
+	});
+
+	// Event clicked, opens modal to self.fields the event
+	function editEvent(event, jsEvent, view) {
+	  last_selected_event = event;
+	  $('#edit_event_modal').modal('show');
+	}
+
+	// Event selected, opens modal for creation
+	function eventSelected(start, end) {
+	  last_selected_event = createEvent(-1, '', false, moment(start.format()), moment(end.format()));
+	  $('#create_event_modal').modal('show');
+	  $('#work_schedule_calendar').fullCalendar('unselect');
+	}
+
+	// Sends Get request to remve the event
+	function sendDelete(recurrent) {
+	  $("#eventDeleteForm>input[name='id']").attr('value', last_selected_event.id);
+	  if (recurrent)
+	    $("#eventDeleteForm>input[name='all_occurences']").attr('value', 'yes');
+	  else
+	    $("#eventDeleteForm>input[name='all_occurences']").attr('value', '');
+
+	  $.post('', $("#eventDeleteForm").serialize(), function(data, textStatus, xhr) {
+	    if (xhr.status == 200)
+	      location.reload();
+	  });
+	}
+
+	// Sends post request
+	function sendCreateEvent() {
+	  $("#eventSendForm>input[name='name']").attr('value', last_selected_event.name);
+	  $("#eventSendForm>input[name='appointment_types']").attr('value', last_selected_event.appointment_types);
+	  $("#eventSendForm>input[name='start']").attr('value', last_selected_event.start.unix());
+	  $("#eventSendForm>input[name='end']").attr('value', last_selected_event.end.unix());
+	  $("#eventSendForm>input[name='recurrent']").prop('checked', last_selected_event.recurrent);
+	  $("#eventSendForm>input[name='recursion_end']").attr('value', last_selected_event.recursion_end.unix());
+
+	  $.post(' url "api_doctor_workschedule" ', $("#eventSendForm").serialize(), function(data, textStatus, xhr) {
+	    if (xhr.status == 200)
+	      location.reload();
+	  });
+	}
+
+	// Adds a list of events received from the server to the calendar
+	function displayListInCalendar(eventList) {
+	  for (var i = 0; i < eventList.length; ++i) {
+	    var e = eventList[i];
+	    e = createEvent(e.id, e.name, e.recurrent, moment(e.start), moment(e.end), e.appointment_types);
+	    $('#work_schedule_calendar').fullCalendar('renderEvent', e, true);
+	  }
+	}
+
+	// Returns the event object with given values
+	function createEvent(id, name, recurrent, start, end, appointment_types) {
+	  var event = {};
+	  event.name = name;
+	  event.title = name;
+	  if (id > 0)
+	    event.id = id;
+	  event.recurrent = recurrent;
+	  event.start = start;
+	  event.end = end;
+	  event.appointment_types = appointment_types;
+
+	  return event;
+	}
+	*/
+</script>
+
+{% endblock block_body %}

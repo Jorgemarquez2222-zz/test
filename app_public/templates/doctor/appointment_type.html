@@ -1,0 +1,111 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+
+{% block block_body %}
+
+{% include "elements/includes_bootstrap-colorpicker.html" %}
+{% url "appointments_type_view" as appointement_type_view %}
+<h2>{% trans "Configure appointment types" %}</h2>
+<div id="cp2" class="input-group colorpicker-component">
+    <input type="text" value="#00AABB" class="form-control" />
+    <span class="input-group-addon"><i></i></span>
+</div>
+<script>
+    $(function() {
+        $('#cp2').colorpicker();
+    });
+</script>
+<div>
+   <ul id="apptc">
+      <img src="/static/media/images/preloader1.gif">
+      <li id="apptpc" style="display:none" onclick="$('#addapt').show(400);getAllAppointmentsTypes();"><button>{% trans 'Add an appointment type' %}</button></li>
+   </ul>
+</div>
+<div id="addapt" style="display:none">
+   <h2>{% trans 'Add' %}</h2>
+   <div>
+      <h4>{% trans 'Create one' %}</h4>
+      {% include "elements/form.html" with action=appointement_type_view form=form %}
+   </div>
+   <div>
+      <h4>{% trans 'All appointment types' %}</h4>
+      <ul id="lallappt">
+         <img src="/static/media/images/preloader1.gif">
+      </ul>
+   </div>
+</div>
+<form id="removeform" style="display:none">
+   {% csrf_token %}
+   <input type="text" name="id">
+</form>
+<script src="/static/libs/typeahead.js"></script>
+<script type="text/javascript">
+   var all_appointment_types = null;
+   var last_val = null;
+   
+   function sendPost(url) {
+     $.post(url, $('#removeform').serialize(), function(data, status, xhr) {
+       if (xhr.status != 200)
+         return;
+       location.reload();
+     });
+   }
+   
+   // Sends a request to remove the work schedule
+   function removeAppType(id) {
+     $('#removeform').find('input[name="id"]').val(id);
+     sendPost("{% url 'api_appointment_type_remove' %}");
+   }
+   
+   // Sends a request to add an appointment type to ones used by the doctor
+   function useAppType(id) {
+     $('#removeform').find('input[name="id"]').val(id);
+     sendPost("{% url 'api_appointment_type_use' %}");
+   }
+   
+   // Gets and displays users appointment types
+     function getUserAppointmentsTypes() {
+         $.get("{% url 'api_appointment_type_get' %}?used", function(data, status, xhr) {
+           if (xhr.status == 200) {
+              var elt = $('#apptc');
+              elt.find('img').hide(50);
+              for (var i = data.data.length - 1; i >= 0; --i)
+                 elt.prepend("<li>" + data.data[i].name + " (" + data.data[i].duration + ") " + '<a href="#" onclick="removeAppType(' + data.data[i].id + ')">{% trans "Delete" %}</a>' + "</li>");
+              elt.hide().show(300);
+              $('#apptpc').show();
+           }
+         });
+     }
+   
+     // Gets and displays all appointment types for adding
+     function getAllAppointmentsTypes() {
+         $.get("{% url 'api_appointment_type_get' %}", function(data, status, xhr) {
+           if (xhr.status == 200) {
+              var elt = $('#lallappt');
+              elt.html('');
+              for (var i = data.data.length - 1; i >= 0; --i)
+                 elt.prepend("<li>" + data.data[i].name + " (" + data.data[i].duration + ") " + '<a href="#" onclick="useAppType(' + data.data[i].id + ')">{% trans "Add" %}</a>' + "</li>");
+              elt.hide().show(300);
+              $('#apptpc').show();
+           }
+         });
+     }
+   
+     $(document).ready(function() {
+         // Submit create new app type
+         $('#addaptf').on('submit', function(e) {
+             e.preventDefault();
+             $.post('{% url "api_appointment_type_add" %}', $(this).serialize(), function(data, textStatus, xhr) {
+               if (xhr.status != 200)
+                 return;
+               location.reload();
+             });
+         });
+   
+         getUserAppointmentsTypes();
+     });
+
+   var searchAppointmentType='/api/appointments/appointmenttype/get/?';
+</script>
+<script type="text/javascript" src="/static/js/search/search_appointment_type.js"></script>
+{% endblock block_body %}

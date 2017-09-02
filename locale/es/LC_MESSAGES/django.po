@@ -1,0 +1,213 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-26 15:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app_public/forms/fields.py:10 app_public/forms/fields.py:11
+msgid "First name"
+msgstr ""
+
+#: app_public/forms/fields.py:17 app_public/forms/fields.py:18
+msgid "Last name"
+msgstr ""
+
+#: app_public/forms/fields.py:23 app_public/forms/fields.py:24
+msgid "Email"
+msgstr ""
+
+#: app_public/forms/fields.py:30
+msgid "This email is already used"
+msgstr ""
+
+#: app_public/forms/fields.py:32
+msgid "Wrong format."
+msgstr ""
+
+#: app_public/forms/fields.py:39 app_public/forms/fields.py:42
+msgid "Phone number"
+msgstr ""
+
+#: app_public/forms/fields.py:48 app_public/forms/fields.py:50
+msgid "Description"
+msgstr ""
+
+#: app_public/forms/fields.py:56 app_public/forms/fields.py:57
+msgid "Password"
+msgstr ""
+
+#: app_public/forms/forms_subscribe.py:21
+#: app_public/forms/forms_subscribe.py:41
+msgid "Passwords don't match"
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:10
+msgid "Define youk work schedule"
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:24
+#: app_public/templates/doctor/work_schedule.html:27
+#: app_public/templates/doctor/work_schedule.html:39
+#: app_public/templates/users/appointments.html:26
+#: app_public/templates/users/appointments.html:29
+msgid "Delete event"
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:28
+#: app_public/templates/doctor/work_schedule.html:49
+#: app_public/templates/elements/menu.html:69
+#: app_public/templates/users/appointments.html:30
+msgid "Close"
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:43
+msgid "The event is recurrent."
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:45
+msgid "Delete only the selected occurence"
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:48
+msgid "Delete all occurences"
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:60
+msgid "Create event"
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:72
+msgid "Recurrent"
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:76
+msgid "Repeat until"
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:98
+msgid "Create"
+msgstr ""
+
+#: app_public/templates/doctor/work_schedule.html:99
+msgid "Cancel"
+msgstr ""
+
+#: app_public/templates/elements/footer.html:11
+msgid "Language"
+msgstr ""
+
+#: app_public/templates/elements/footer.html:13
+#: doctocliq/settings.py:160
+msgid "English"
+msgstr ""
+
+#: app_public/templates/elements/footer.html:14
+#: doctocliq/settings.py:159
+msgid "French"
+msgstr ""
+
+#: app_public/templates/elements/footer.html:15
+#: doctocliq/settings.py:161
+msgid "Spanish"
+msgstr ""
+
+#: app_public/templates/elements/form.html:9
+msgid "Submit"
+msgstr ""
+
+#: app_public/templates/elements/menu.html:21
+msgid "Admin"
+msgstr ""
+
+#: app_public/templates/elements/menu.html:23
+msgid "Appointments"
+msgstr ""
+
+#: app_public/templates/elements/menu.html:25
+msgid "Work schedule"
+msgstr ""
+
+#: app_public/templates/elements/menu.html:27
+msgid "Profile"
+msgstr ""
+
+#: app_public/templates/elements/menu.html:35
+msgid "Logout"
+msgstr ""
+
+#: app_public/templates/elements/menu.html:40
+#: app_public/templates/elements/menu.html:42
+#: app_public/templates/elements/menu.html:70
+msgid "Log in"
+msgstr ""
+
+#: app_public/templates/elements/menu.html:44
+#: app_public/templates/users/subscribe.html:8
+msgid "Subscribe"
+msgstr ""
+
+#: app_public/templates/elements/menu.html:62
+msgid "Login to Your Account"
+msgstr ""
+
+#: app_public/templates/home.html:14 app_public/templates/search.html:12
+msgid "Search for a doctor !"
+msgstr ""
+
+#: app_public/templates/home.html:16 app_public/templates/search.html:14
+msgid "Search..."
+msgstr ""
+
+#: app_public/templates/home.html:29 app_public/templates/search.html:23
+msgid "Search"
+msgstr ""
+
+#: app_public/templates/users/appointments.html:10
+msgid "Your appointments"
+msgstr ""
+
+#: app_public/templates/users/login.html:9
+msgid "If you don't have an account"
+msgstr ""
+
+#: app_public/templates/users/login.html:9
+msgid "subscribe"
+msgstr ""
+
+#: app_public/templates/users/subscribe.html:9
+msgid "Are you a doctor ?"
+msgstr ""
+
+#: app_public/templates/users/subscribe.html:9
+msgid "subscribe as a doctor"
+msgstr ""
+
+#: app_public/templates/users/subscribe.html:14
+msgid "Subscribe as a doctor"
+msgstr ""
+
+#: app_public/templates/users/subscribe.html:15
+msgid "Are you a patient ?"
+msgstr ""
+
+#: app_public/templates/users/subscribe.html:15
+msgid "subscribe here"
+msgstr ""
+
+#: app_public/views/pages/users/login.py:29
+msgid "Authentication failed"
+msgstr ""

@@ -1,0 +1,11 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+
+{% block block_body %}
+<a href="{% url 'appointments_type_view' %}">
+	<span class="glyphicon glyphicon-list-alt"></span> {% trans "Configure your appointment types" %}
+</a>
+<a href="{% url 'workschedule' %}">
+	<span class="glyphicon glyphicon-calendar"></span> {% trans "Configure your work schedule" %}
+</a>
+{% endblock block_body %}

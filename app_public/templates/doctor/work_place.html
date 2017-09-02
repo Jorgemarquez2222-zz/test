@@ -1,0 +1,70 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+
+{% block block_head %}
+{% include "elements/includes_bootstrap-colorpicker.html" %}
+{% include "elements/includes_search.html" %}
+{% include "elements/includes_post_listener.html" %}
+{% endblock block_head %}
+
+{% block block_body %}
+{% if new_app_type_form %}
+<div class="row">
+	<div class="col-sm-5 col-sm-offset-1">
+		<h1>{% trans 'Work place' %}</h1>
+		<form method="POST" action="{% url 'work_place_view' %}{% if wp_id %}?id={{ wp_id }}{% endif %}">
+			{% csrf_token %}
+			{{ work_place_form }}
+			{{ location_form }}
+			<input type="submit" name="{% trans 'Create' %}">
+		</form>
+	</div>
+	<div class="col-sm-5">
+		<h1>{% trans 'Appointment types' %}</h1>
+
+		<h2>{% trans 'Your appointment types' %}</h2>
+		{% for apptform in app_type_forms %}
+			<form id="AppTypeUpdateForm{{ wp_id }}{{ apptform.instance.id }}">
+				{% csrf_token %}
+				{{ apptform }}
+				<input type="submit" name="{% trans 'Update' %}">
+			</form>
+			<script type="text/javascript">
+				setSubmitListener("AppTypeUpdateForm{{ wp_id }}{{ apptform.instance.id }}",
+					"{% url 'api_appointment_type' %}?id={{ apptform.instance.id }}&work_place_id={{ wp_id }}");
+			</script>
+			<form id="AppTypeRemoveForm{{ wp_id }}{{ apptform.instance.id }}">
+				{% csrf_token %}
+				<input type="hidden" name="id" value="{{ apptform.instance.id }}">
+				<input type="submit" name="{% trans 'Delete' %}">
+			</form>
+			<script type="text/javascript">
+				setSubmitListener("AppTypeRemoveForm{{ wp_id }}{{ apptform.instance.id }}",
+					"{% url 'api_appointment_type_remove' %}");
+			</script>
+		{% endfor %}
+
+		<h2>{% trans 'Add a new appointment type' %}</h2>
+		<form id="appTypeAddForm">
+			{% csrf_token %}
+			{{ new_app_type_form }}
+			<input type="submit" name="{% trans 'Add' %}">
+		</form>
+		<script type="text/javascript">
+			setSubmitListener("appTypeAddForm",
+				"{% url 'api_appointment_type_add' %}?work_place_id={{ wp_id }}");
+		</script>
+	</div>
+</div>
+{% else %}
+<div class="col-sm-6 col-sm-offset-3">
+	<form method="POST" action="{% url 'work_place_view' %}{% if wp_id %}?id={{ wp_id }}{% endif %}">
+		{% csrf_token %}
+		{{ work_place_form }}
+		{{ location_form }}
+		<input type="submit" name="{% trans 'Create' %}" class="btn btn-primary">
+	</form>
+</div>
+{% endif %}
+
+{% endblock block_body %}

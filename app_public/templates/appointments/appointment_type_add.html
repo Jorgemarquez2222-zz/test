@@ -1,0 +1,15 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+
+{% block block_body %}
+{% include "elements/includes_bootstrap-colorpicker.html" %}
+{% include "elements/includes_search.html" %}
+
+<h1>{% trans 'Adding appointment type' %}</h1>
+
+<form method="POST" action="{% url 'appointment_type_add' %}">
+	{% csrf_token %}
+	{{ form }}
+	<input type="submit" name="{% trans 'Create' %}">
+</form>
+{% endblock block_body %}

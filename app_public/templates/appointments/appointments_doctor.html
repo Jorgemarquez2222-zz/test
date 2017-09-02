@@ -1,0 +1,294 @@
+{% extends 'elements/skeleton.html' %}
+{% load i18n %}
+
+{% block block_head %}
+{% include "elements/includes_momentjs.html" %}
+{% include "elements/includes_bootstrap-datetimepicker.html" %}
+{% include "elements/includes_fullcalendario.html" %}
+<script type="text/javascript" src="/static/js/get_cookie.js"></script>
+{% endblock block_head %}
+
+{% block block_body %}
+<div class="row">
+  <div class="col-md-offset-2 col-md-8">
+    <h1>{% trans 'Manage your agenda' %}</h1>
+    <div id="work_schedule_calendar"></div>
+  </div>
+</div>
+
+<div class="modal fade" id="create_event_modal">
+ <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{% trans "Create new appointment" %}</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group">
+            <label for="name">{% trans "Name" %}</label>
+            <input type="text" id="name6541" name="name" class="form-control" />
+        </div>
+
+        <div class="form-group">
+        	<label for="start">{% trans "Start" %}</label>
+            <div class='input-group date' id='start6541'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+        	<label for="start">{% trans "End" %}</label>
+            <div class='input-group date' id='end6541'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="submitClicked()">{% trans "Create" %}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // JS for create_event_modal
+
+  // At opening modal, clearing fields
+  $('#create_event_modal').on('show.bs.modal', function () {
+    $('#name6541').val('');
+    setTimeout(function() {$('#name6541').focus();}, 200);
+    $('#start6541').datetimepicker({date: last_selected_event.start, format: 'YYYY-MM-DD HH:mm'});
+    $('#end6541').datetimepicker({date: last_selected_event.end, format: 'YYYY-MM-DD HH:mm'});
+  });
+
+  // When submitting
+  function submitClicked() {
+    last_selected_event.name = $('#name6541').val();
+    last_selected_event.start = moment($('#start6541').find('input').val());
+    last_selected_event.end = moment($('#end6541').find('input').val());
+
+    sendCreateEvent();
+    $('#create_event_modal').modal('hide');
+  }
+</script>
+
+<div class="modal fade" id="edit_event_modal">
+ <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="name9845" class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <div id="f651651">
+          <button type="button" class="btn btn-danger" onclick="deleteClicked()">{% trans "Cancel appointment" %}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+        </div>
+        <div id="g156215">
+          <button type="button" class="btn btn-danger" onclick="deleteConfirmed()">{% trans "Yes, cancel" %}</button>
+          <button type="button" class="btn btn-default" onclick="cancelClicked()">{% trans "Close" %}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // JS for edit_event_modal
+
+  // At opening modal, displaying elements
+  $('#edit_event_modal').on('show.bs.modal', function () {
+    $('#name9845').html(last_selected_event.title);
+    $('#f651651').show();
+    $('#g156215').hide();
+  });
+
+  // Delete button clocked
+  function deleteClicked() {
+    $('#f651651').hide(150);
+    $('#g156215').show(150);
+  }
+
+  // Cancel the delete
+  function cancelClicked() {
+    $('#f651651').show(150);
+    $('#g156215').hide(150);
+  }
+
+  // Confirm the delete
+  function deleteConfirmed() {
+    sendDelete();
+    $('#edit_event_modal').modal('hide');
+  }
+</script>
+
+<form style="display:none" id="eventSendForm">
+  {% csrf_token %}
+  <input type="text" name="name">
+  <input type="text" name="app_type_id">
+  <input type="text" name="patient_id">
+  <input type="datetime" name="start">
+  <input type="datetime" name="end">
+</form>
+
+<form style="display:none" id="eventDeleteForm">
+  {% csrf_token %}
+  <input type="text" name="id">
+</form>
+
+<script type="text/javascript">
+var last_selected_event = null;
+
+function getLocale() {
+  var dlc = getCookie("django_language");
+  if (dlc != '')
+     return dlc;
+  return navigator.language || navigator.userLanguage;
+}
+moment.locale(getLocale());
+
+$(document).ready(function() {
+  // FullCalendar definition
+  $('#work_schedule_calendar').fullCalendar({
+    eventClick: editEvent,
+    eventOverlap: false,
+    timeFormat: 'H:mm',
+    locale: getLocale(),
+    timezone: moment.locale(),
+    slotLabelFormat: 'H:mm',
+    header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listWeek'
+    },
+    selectable: true,
+    selectHelper: true,
+    select: eventSelected,
+    editable: false,
+    eventLimit: 5, // allow "more" link when too many events
+    height: "auto",
+    defaultView: 'agendaWeek',
+    allDaySlot: false,
+    nowIndicator: true,
+    minTime: '00:00:00',
+    maxTime: '24:00:00'
+  });
+
+  // Sends request to load all Work schedules
+  $.get('{% url "api_doctor_workschedule" %}', function(data) {
+    displayListInCalendarWS(data['data']);
+  });
+
+  // Sends request to load appointments
+  $.get('{% url "api_appointments_get" %}', function(data) {
+    displayListInCalendarAPP(data['data']);
+  });
+});
+
+// Event clicked, opens modal to remove the event
+function editEvent(event, jsEvent, view) {
+  last_selected_event = event;
+  $('#edit_event_modal').modal('show');
+}
+
+// Event selected, opens modal for creation
+function eventSelected(start, end) {
+  last_selected_event = createEventApp(-1, '', moment(start.format()), moment(end.format()), '', '');
+  $('#create_event_modal').modal('show');
+  $('#work_schedule_calendar').fullCalendar('unselect');
+}
+
+// Sends Get request to remve the event
+function sendDelete() {
+  $("#eventDeleteForm>input[name='id']").attr('value', last_selected_event.id);
+
+  $.post('{% url "api_appointments_cancel" %}', $("#eventDeleteForm").serialize(), function(data, textStatus, xhr) {
+    if (xhr.status == 200)
+      location.reload();
+  });
+}
+
+// Sends post request
+function sendCreateEvent() {
+  $("#eventSendForm>input[name='name']").attr('value', last_selected_event.name);
+  $("#eventSendForm>input[name='app_type_id']").attr('value', last_selected_event.appointment_type);
+  $("#eventSendForm>input[name='patient_id']").attr('value', last_selected_event.patient);
+  $("#eventSendForm>input[name='start']").attr('value', last_selected_event.start.unix());
+  $("#eventSendForm>input[name='end']").attr('value', last_selected_event.end.unix());
+
+  $.post('{% url "api_appointments_make_doctor" %}', $("#eventSendForm").serialize(), function(data, textStatus, xhr) {
+    if (xhr.status == 200)
+      location.reload();
+  });
+}
+
+// Adds a list of events received from the server to the calendar
+function displayListInCalendarAPP(eventList) {
+  for (var i = 0; i < eventList.length; ++i) {
+    var e = eventList[i];
+    e = createEventApp(e.id, e.name, moment(e.start), moment(e.end), e.appointment_types, e.patient);
+    $('#work_schedule_calendar').fullCalendar('renderEvent', e, true);
+  }
+}
+
+// Returns the event object with given values
+function createEventApp(id, name, start, end, app_type, patient) {
+  var event = {};
+  event.name = name;
+
+  event.title = '';
+  if (name != null)
+  	event.title += name;
+  if (patient != null)
+  	event.title += " " + patient;
+  if (app_type != null)
+  	event.title += " " + app_type;
+
+  if (id > 0)
+    event.id = id;
+  event.start = start;
+  event.end = end;
+  event.appointment_type = app_type;
+  event.patient = patient;
+
+  return event;
+}
+
+// Adds a list of events received from the server to the calendar
+function displayListInCalendarWS(eventList) {
+  for (var i = 0; i < eventList.length; ++i) {
+    var e = eventList[i];
+    e = createEvent(e.id, e.name, e.recurrent, moment(e.start), moment(e.end), e.appointment_types);
+    $('#work_schedule_calendar').fullCalendar('renderEvent', e, true);
+  }
+}
+
+// Returns the event object with given values
+function createEvent(id, name, recurrent, start, end, appointment_types) {
+  var event = {};
+  event.name = name;
+  event.title = name;
+  if (id > 0)
+    event.id = id;
+  event.recurrent = recurrent;
+  event.start = start;
+  event.end = end;
+  event.appointment_types = appointment_types;
+  event.rendering = 'background';
+
+  return event;
+}
+</script>
+{% endblock block_body %}

@@ -1,0 +1,9 @@
+pytz
+django
+django-grappelli
+djangorestframework
+django-filter
+djangorestframework-jwt
+Pillow
+django-crispy-forms
+psycopg2
